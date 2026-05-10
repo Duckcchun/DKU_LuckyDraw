@@ -1,7 +1,8 @@
 [build]
 builder = "nixpacks"
-watchPatterns = ["lottoproject/**"]
+buildCommand = "cd lottoproject && pip install -r requirements.txt && python manage.py collectstatic --noinput 2>/dev/null || true"
 
 [deploy]
+startCommand = "cd lottoproject && python manage.py makemigrations lotto && python manage.py migrate && python create_superuser.py && gunicorn lottoproject.wsgi:application --bind 0.0.0.0:$PORT --workers 2"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
