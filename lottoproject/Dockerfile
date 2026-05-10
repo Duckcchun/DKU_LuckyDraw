@@ -12,6 +12,8 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     gcc \
     libpq-dev \
+    dos2unix \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Python 의존성 설치
@@ -26,7 +28,7 @@ RUN python manage.py collectstatic --noinput 2>/dev/null || true
 
 # 실행 스크립트 복사 및 권한 설정
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN dos2unix /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 8000
 

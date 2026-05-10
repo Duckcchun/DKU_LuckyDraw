@@ -39,6 +39,12 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     networks:
       - lotto_network
 
@@ -53,7 +59,8 @@ services:
     volumes:
       - static_volume:/app/staticfiles
     depends_on:
-      - web
+      web:
+        condition: service_healthy
     networks:
       - lotto_network
 
