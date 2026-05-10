@@ -1,0 +1,10 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "lottoproject/Dockerfile"
+
+[deploy]
+startCommand = "cd /app && bash /entrypoint.sh"
+healthcheckPath = "/"
+healthcheckTimeout = 30
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
