@@ -23,7 +23,7 @@ services:
   web:
     build:
       context: ./lottoproject
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.local
     container_name: lotto_web
     volumes:
       - static_volume:/app/staticfiles
