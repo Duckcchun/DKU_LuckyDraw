@@ -1,8 +1,7 @@
 [build]
 builder = "nixpacks"
-nixpacksPlan = { providers = ["python"] }
+nixpacksConfigPath = "lottoproject/nixpacks.toml"
 
 [deploy]
-startCommand = "bash -c 'cd lottoproject && python manage.py makemigrations lotto && python manage.py migrate && python create_superuser.py && python manage.py collectstatic --noinput && gunicorn lottoproject.wsgi:application --bind 0.0.0.0:$PORT --workers 2'"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3

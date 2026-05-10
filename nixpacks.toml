@@ -2,7 +2,7 @@
 nixPkgs = ["python311", "postgresql"]
 
 [phases.install]
-cmds = ["cd lottoproject && pip install -r requirements.txt"]
+cmds = ["pip install -r requirements.txt"]
 
 [phases.build]
 cmds = ["cd lottoproject && python manage.py collectstatic --noinput 2>/dev/null || true"]
