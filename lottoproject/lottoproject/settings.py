@@ -94,3 +94,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+
+# Django 5.x에서 GET 방식 로그아웃 허용
+LOGOUT_REDIRECT_URL = '/'

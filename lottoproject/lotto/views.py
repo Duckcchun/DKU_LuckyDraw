@@ -4,7 +4,7 @@
 - 관리자: 판매내역, 추첨, 당첨내역
 """
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.db.models import Count, Q
@@ -19,6 +19,14 @@ from .forms import SignUpForm, ManualNumberForm
 def is_admin(user):
     """관리자 확인"""
     return user.is_staff or user.is_superuser
+
+
+# ============ 인증 ============
+
+def user_logout(request):
+    """GET/POST 모두 허용하는 로그아웃"""
+    logout(request)
+    return redirect('home')
 
 
 # ============ 일반 페이지 ============
