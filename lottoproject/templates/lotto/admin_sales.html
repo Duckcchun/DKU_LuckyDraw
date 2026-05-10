@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}판매 내역 - DKU 로또{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="fas fa-receipt"></i> 판매 내역</h4>
+                <div>
+                    <form method="get" class="d-inline">
+                        <select name="round" class="form-select form-select-sm d-inline-block" style="width:auto;" onchange="this.form.submit()">
+                            <option value="">전체 회차</option>
+                            {% for round in rounds %}
+                            <option value="{{ round.round_number }}" {% if selected_round == round.round_number|stringformat:"d" %}selected{% endif %}>
+                                제 {{ round.round_number }}회
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- 통계 -->
+                <div class="row text-center mb-4">
+                    <div class="col-4">
+                        <h4 class="text-primary">{{ stats.total_count }}</h4>
+                        <small class="text-muted">총 판매</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-info">{{ stats.auto_count }}</h4>
+                        <small class="text-muted">자동</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-warning">{{ stats.manual_count }}</h4>
+                        <small class="text-muted">수동</small>
+                    </div>
+                </div>
+
+                <!-- 판매 목록 -->
+                {% if tickets %}
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>구매자</th>
+                                <th>회차</th>
+                                <th>번호</th>
+                                <th>유형</th>
+                                <th>구매일시</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticket in tickets %}
+                            <tr>
+                                <td>{{ ticket.user.username }}</td>
+                                <td>{{ ticket.lotto_round.round_number }}회</td>
+                                <td>{{ ticket.get_numbers_display }}</td>
+                                <td><span class="badge bg-{% if ticket.purchase_type == 'auto' %}info{% else %}warning{% endif %}">{{ ticket.get_purchase_type_display }}</span></td>
+                                <td>{{ ticket.purchased_at|date:"m/d H:i" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">판매 내역이 없습니다.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

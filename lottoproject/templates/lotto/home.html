@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}DKU 6/45 로또 - 홈{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto text-center">
+        <h1 class="mb-4"><i class="fas fa-clover text-success"></i> DKU 6/45 로또</h1>
+        <p class="lead text-muted mb-4">행운의 번호를 선택하고 꿈을 현실로 만들어보세요!</p>
+
+        <!-- 현재 회차 정보 -->
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <h3 class="text-primary">현재 {{ current_round.round_number }}회</h3>
+                <p class="text-muted">판매 진행중</p>
+                {% if user.is_authenticated %}
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{% url 'purchase_auto' %}" class="btn btn-lotto btn-lg">
+                        <i class="fas fa-random"></i> 자동 구매
+                    </a>
+                    <a href="{% url 'purchase_manual' %}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-pen"></i> 수동 구매
+                    </a>
+                </div>
+                {% else %}
+                <p class="mt-3">
+                    <a href="{% url 'login' %}" class="btn btn-lotto btn-lg">로그인하고 구매하기</a>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 최근 당첨 결과 -->
+        {% if recent_results %}
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-trophy"></i> 최근 당첨 결과</h5>
+            </div>
+            <div class="card-body">
+                {% for result in recent_results %}
+                <div class="mb-3 p-3 border rounded">
+                    <h6 class="text-primary">제 {{ result.lotto_round.round_number }}회</h6>
+                    <div class="d-flex align-items-center justify-content-center flex-wrap">
+                        {% for num in result.get_numbers %}
+                        <span class="lotto-ball {% if num <= 10 %}ball-1-10{% elif num <= 20 %}ball-11-20{% elif num <= 30 %}ball-21-30{% elif num <= 40 %}ball-31-40{% else %}ball-41-45{% endif %}">
+                            {{ num }}
+                        </span>
+                        {% endfor %}
+                        <span class="mx-2 fw-bold">+</span>
+                        <span class="lotto-ball bonus-ball {% if result.bonus_number <= 10 %}ball-1-10{% elif result.bonus_number <= 20 %}ball-11-20{% elif result.bonus_number <= 30 %}ball-21-30{% elif result.bonus_number <= 40 %}ball-31-40{% else %}ball-41-45{% endif %}">
+                            {{ result.bonus_number }}
+                        </span>
+                    </div>
+                    <small class="text-muted">{{ result.drawn_at|date:"Y-m-d H:i" }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

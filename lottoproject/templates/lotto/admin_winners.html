@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}당첨 내역 - DKU 로또{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="fas fa-trophy"></i> 전체 당첨 내역</h4>
+            </div>
+            <div class="card-body">
+                {% if winners_by_round %}
+                {% for item in winners_by_round %}
+                <div class="mb-4 p-3 border rounded">
+                    <h5 class="text-primary">제 {{ item.result.lotto_round.round_number }}회</h5>
+                    <div class="mb-2">
+                        <strong>당첨번호:</strong>
+                        {% for num in item.result.get_numbers %}
+                        <span class="lotto-ball {% if num <= 10 %}ball-1-10{% elif num <= 20 %}ball-11-20{% elif num <= 30 %}ball-21-30{% elif num <= 40 %}ball-31-40{% else %}ball-41-45{% endif %}" style="width:30px;height:30px;font-size:11px;">
+                            {{ num }}
+                        </span>
+                        {% endfor %}
+                        <span class="mx-1">+</span>
+                        <span class="lotto-ball bonus-ball {% if item.result.bonus_number <= 10 %}ball-1-10{% elif item.result.bonus_number <= 20 %}ball-11-20{% elif item.result.bonus_number <= 30 %}ball-21-30{% elif item.result.bonus_number <= 40 %}ball-31-40{% else %}ball-41-45{% endif %}" style="width:30px;height:30px;font-size:11px;">
+                            {{ item.result.bonus_number }}
+                        </span>
+                    </div>
+                    <p><small class="text-muted">추첨일: {{ item.result.drawn_at|date:"Y-m-d H:i" }} | 당첨자: {{ item.winner_count }}명</small></p>
+
+                    {% if item.winners %}
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>사용자</th>
+                                <th>번호</th>
+                                <th>등수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ticket in item.winners %}
+                            <tr>
+                                <td>{{ ticket.user.username }}</td>
+                                <td>{{ ticket.get_numbers_display }}</td>
+                                <td class="prize-{{ ticket.prize_rank }}">{{ ticket.prize_rank }}등</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="text-muted small">당첨자 없음</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">아직 추첨 결과가 없습니다.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

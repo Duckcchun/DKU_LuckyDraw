@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}회원가입 - DKU 로또{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0"><i class="fas fa-user-plus"></i> 회원가입</h4>
+            </div>
+            <div class="card-body">
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">사용자명</label>
+                        {{ form.username }}
+                        <small class="form-text text-muted">영문, 숫자, @/./+/-/_ 허용</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">이메일</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password1" class="form-label">비밀번호</label>
+                        {{ form.password1 }}
+                        <small class="form-text text-muted">8자 이상, 숫자만은 불가</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password2" class="form-label">비밀번호 확인</label>
+                        {{ form.password2 }}
+                    </div>
+                    <button type="submit" class="btn btn-lotto w-100">가입하기</button>
+                </form>
+                <hr>
+                <p class="text-center mb-0">
+                    이미 계정이 있으신가요? <a href="{% url 'login' %}">로그인</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

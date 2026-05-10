@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}관리자 대시보드 - DKU 로또{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h3 class="mb-4"><i class="fas fa-tachometer-alt"></i> 관리자 대시보드</h3>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="text-primary">{{ current_round.round_number }}</h2>
+                <p class="text-muted mb-0">현재 회차</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="text-success">{{ total_tickets }}</h2>
+                <p class="text-muted mb-0">현재 판매량</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="text-warning">{{ total_rounds }}</h2>
+                <p class="text-muted mb-0">총 회차 수</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2 class="text-info">{{ total_users }}</h2>
+                <p class="text-muted mb-0">구매 사용자</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-receipt fa-3x text-primary mb-3"></i>
+                <h5>판매 내역</h5>
+                <p class="text-muted">전체 판매 내역을 확인합니다.</p>
+                <a href="{% url 'admin_sales' %}" class="btn btn-lotto">확인하기</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-dice fa-3x text-danger mb-3"></i>
+                <h5>추첨 실행</h5>
+                <p class="text-muted">현재 회차의 추첨을 진행합니다.</p>
+                <a href="{% url 'admin_draw' %}" class="btn btn-danger">추첨하기</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
+                <h5>당첨 내역</h5>
+                <p class="text-muted">전체 당첨 내역을 확인합니다.</p>
+                <a href="{% url 'admin_winners' %}" class="btn btn-warning">확인하기</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

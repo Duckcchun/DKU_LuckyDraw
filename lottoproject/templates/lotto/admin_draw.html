@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}추첨 - DKU 로또{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white text-center">
+                <h4 class="mb-0"><i class="fas fa-dice"></i> 추첨 실행</h4>
+            </div>
+            <div class="card-body text-center">
+                <h3 class="mb-3">제 {{ current_round.round_number }}회</h3>
+                <p class="text-muted">현재 판매된 티켓: <strong class="text-primary">{{ ticket_count }}장</strong></p>
+
+                {% if ticket_count > 0 %}
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    추첨을 실행하면 현재 회차의 판매가 종료되고, 새로운 회차가 시작됩니다.
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-lg" onclick="return confirm('정말 추첨을 실행하시겠습니까?')">
+                        <i class="fas fa-play-circle"></i> 추첨 실행
+                    </button>
+                </form>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    판매된 티켓이 없어 추첨할 수 없습니다.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
