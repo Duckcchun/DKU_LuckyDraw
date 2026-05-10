@@ -3,14 +3,14 @@
 # DB가 준비될 때까지 대기
 echo "Waiting for PostgreSQL..."
 while ! python -c "
-import psycopg2
+import os, psycopg2
 try:
     conn = psycopg2.connect(
-        dbname='$DB_NAME',
-        user='$DB_USER',
-        password='$DB_PASSWORD',
-        host='$DB_HOST',
-        port='$DB_PORT'
+        dbname=os.environ.get('DB_NAME', 'lottodb'),
+        user=os.environ.get('DB_USER', 'lottouser'),
+        password=os.environ.get('DB_PASSWORD', 'lottopass'),
+        host=os.environ.get('DB_HOST', 'db'),
+        port=os.environ.get('DB_PORT', '5432')
     )
     conn.close()
     exit(0)
