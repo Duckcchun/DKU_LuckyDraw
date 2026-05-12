@@ -1,38 +1,22 @@
-"""
-6/45 Lotto 뷰
-- 일반 사용자: 홈, 구매(수동/자동), 당첨확인
-- 관리자: 판매내역, 추첨, 당첨내역
-"""
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from django.db.models import Count, Q
-from django.utils import timezone
 
 from .models import LottoRound, LottoTicket, DrawResult
 from .forms import SignUpForm, ManualNumberForm
 
 
-# ============ 유틸리티 ============
-
 def is_admin(user):
-    """관리자 확인"""
     return user.is_staff or user.is_superuser
 
 
-# ============ 인증 ============
-
 def user_logout(request):
-    """GET/POST 모두 허용하는 로그아웃"""
     logout(request)
     return redirect('home')
 
 
-# ============ 일반 페이지 ============
-
 def home(request):
-    """홈페이지 - 현재 회차 정보 및 최근 당첨 결과"""
     current_round = LottoRound.get_current_round()
     recent_results = DrawResult.objects.select_related('lotto_round').all()[:5]
 
@@ -43,10 +27,7 @@ def home(request):
     return render(request, 'lotto/home.html', context)
 
 
-# ============ 인증 ============
-
 def signup(request):
-    """회원가입"""
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -59,11 +40,8 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
-# ============ 일반 사용자 기능 ============
-
 @login_required
 def purchase_auto(request):
-    """자동번호 구매"""
     current_round = LottoRound.get_current_round()
 
     if request.method == 'POST':
@@ -100,7 +78,6 @@ def purchase_auto(request):
 
 @login_required
 def purchase_manual(request):
-    """수동번호 구매"""
     current_round = LottoRound.get_current_round()
 
     if request.method == 'POST':
@@ -135,14 +112,12 @@ def purchase_manual(request):
 
 @login_required
 def my_tickets(request):
-    """내 구매 내역"""
     tickets = LottoTicket.objects.filter(user=request.user).select_related('lotto_round')
     return render(request, 'lotto/my_tickets.html', {'tickets': tickets})
 
 
 @login_required
 def check_results(request):
-    """당첨 확인 - 내 티켓의 당첨 결과"""
     # 추첨 완료된 회차의 티켓만 조회
     tickets = LottoTicket.objects.filter(
         user=request.user,
@@ -160,12 +135,9 @@ def check_results(request):
     return render(request, 'lotto/check_results.html', context)
 
 
-# ============ 관리자 기능 ============
-
 @login_required
 @user_passes_test(is_admin)
 def admin_dashboard(request):
-    """관리자 대시보드"""
     current_round = LottoRound.get_current_round()
     total_tickets = LottoTicket.objects.filter(lotto_round=current_round).count()
     total_rounds = LottoRound.objects.count()
@@ -183,7 +155,6 @@ def admin_dashboard(request):
 @login_required
 @user_passes_test(is_admin)
 def admin_sales(request):
-    """판매 내역 확인"""
     round_filter = request.GET.get('round', None)
 
     if round_filter:
@@ -214,7 +185,6 @@ def admin_sales(request):
 @login_required
 @user_passes_test(is_admin)
 def admin_draw(request):
-    """추첨 기능"""
     current_round = LottoRound.get_current_round()
     ticket_count = LottoTicket.objects.filter(lotto_round=current_round).count()
 
@@ -239,7 +209,6 @@ def admin_draw(request):
 @login_required
 @user_passes_test(is_admin)
 def admin_draw_result(request, round_number):
-    """추첨 결과 상세"""
     lotto_round = get_object_or_404(LottoRound, round_number=round_number)
     draw_result = get_object_or_404(DrawResult, lotto_round=lotto_round)
 
@@ -266,7 +235,6 @@ def admin_draw_result(request, round_number):
 @login_required
 @user_passes_test(is_admin)
 def admin_winners(request):
-    """당첨 내역 전체 확인"""
     results = DrawResult.objects.select_related('lotto_round').all()
 
     winners_by_round = []

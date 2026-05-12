@@ -351,31 +351,12 @@ docker-compose down -v       # 컨테이너 + 볼륨(DB 데이터) 삭제
 
 ## 8. AI 도구 사용 내역
 
-본 프로젝트는 AI 도구(Kiro - Amazon의 AI 개발 어시스턴트)를 활용하여 개발하였습니다.
+개발 과정에서 Kiro(AI 어시스턴트)를 부분적으로 활용하였습니다.  
+주로 코드 구조 잡을 때 참고용으로 사용했고, 세부 로직이나 디버깅은 직접 수행했습니다.
 
-### 사용 도구
-- **Kiro (AI Assistant)**: 코드 생성, 프로젝트 구조 설계, 배포 설정, 보고서 작성
-
-### AI 활용 범위
-
-| 단계 | AI 활용 내용 |
-|------|-------------|
-| 시스템 설계 | 아키텍처 설계, 데이터 모델 ERD 설계 |
-| 백엔드 구현 | Django 모델, 뷰, 폼, URL 라우팅 코드 생성 |
-| 프론트엔드 | Bootstrap 기반 HTML 템플릿 생성 |
-| Docker 설정 | Dockerfile, docker-compose.yml, nginx.conf, entrypoint.sh 작성 |
-| 배포 설정 | Railway 배포 (railway.toml, whitenoise, dj-database-url) |
-| 디버깅 | Docker 502 에러, Railway 빌드 에러, CSRF 에러 해결 |
-| 문서화 | README.md 보고서 작성 |
-
-### AI 사용 방식
-1. 프로젝트 요구사항을 AI에게 전달
-2. AI가 전체 아키텍처를 설계하고 코드 골격 생성
-3. 각 기능별 뷰, 모델, 템플릿을 순차적으로 구현
-4. Docker 환경 구성 및 로컬 실행 테스트
-5. Railway 클라우드 배포 설정 및 디버깅
-6. CSRF, DB 연결, 빌드 에러 등 문제 해결
-7. 최종 보고서 문서화
+- 초기 프로젝트 구조 설계 참고
+- Docker, Nginx 설정 파일 초안 작성 보조
+- Railway 배포 시 에러 원인 분석 참고
 
 ---
 

@@ -1,8 +1,3 @@
-"""
-6/45 Lotto 폼 정의
-- 회원가입 폼
-- 로또 번호 수동 선택 폼
-"""
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -10,7 +5,6 @@ from django.core.exceptions import ValidationError
 
 
 class SignUpForm(UserCreationForm):
-    """회원가입 폼"""
     email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'})
@@ -34,7 +28,6 @@ class SignUpForm(UserCreationForm):
 
 
 class ManualNumberForm(forms.Form):
-    """수동 번호 선택 폼"""
     number_1 = forms.IntegerField(min_value=1, max_value=45, widget=forms.NumberInput(
         attrs={'class': 'form-control number-input', 'placeholder': '1~45', 'min': 1, 'max': 45}
     ))

@@ -1,8 +1,3 @@
-"""
-Django settings for lottoproject project.
-6/45 Lotto Web Application
-"""
-
 import os
 from pathlib import Path
 
@@ -19,7 +14,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1',
     'https://dkuluckydraw-production.up.railway.app',
 ]
-# 환경변수에 추가 Origin이 있으면 병합
+# 환경변수로 추가 Origin 병합
 _extra_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
 if _extra_origins:
     CSRF_TRUSTED_ORIGINS += [o.strip() for o in _extra_origins.split(',') if o.strip()]
@@ -65,8 +60,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'lottoproject.wsgi.application'
 
-# Database - PostgreSQL
-# Railway에서는 DATABASE_URL 환경변수를 자동으로 제공
 import dj_database_url
 
 DATABASES = {
@@ -98,7 +91,6 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Railway HTTPS 프록시 설정
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
